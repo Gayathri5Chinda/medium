@@ -35,11 +35,13 @@ userRouter.post('/signup',async (c) => {
           name: body.name
         }
       })
-    const token = await sign({id: user.id}, c.env.JWT_SECRET);
+    const jwt = await sign({
+      id: user.id
+    }, c.env.JWT_SECRET);
 
-    return c.json({
-        jwt: token
-      })
+    
+    return c.text(jwt)
+
     }catch(e){
       c.status(411);
       return c.text('invalid activity')
@@ -80,11 +82,12 @@ userRouter.post('/signup',async (c) => {
   
       const jwt = await sign({
         id: user.id
-      }, c.env.JWT_SECRET)
-  
+      }, c.env.JWT_SECRET);
+
+      return c.text(jwt)
     }catch(e){
       c.status(411);
       return c.text('invalid activity')
     }
-    return c.text('signin')
+    
   })
